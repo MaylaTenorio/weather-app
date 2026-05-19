@@ -146,10 +146,12 @@ function pickWalkerVariant(code, isDay) {
 }
 
 function updateWalkerOutfit() {
-  if (!state.data || !walkerState.el) return;
+  if (!state.data) return;
+  const img = document.getElementById("walker");
+  if (!img) return;
   const code = state.data.current.weather_code;
   const isDay = state.data.current.is_day === 1;
-  walkerState.el.src = `assets/walker/${pickWalkerVariant(code, isDay)}.svg`;
+  img.src = `assets/walker/${pickWalkerVariant(code, isDay)}.svg`;
 }
 
 // Pick a random position on the screen, with margins so he doesn't go off-edge
