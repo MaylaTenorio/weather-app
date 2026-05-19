@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JohnnyWeather App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>JohnnyWeather</h1>
+    <div class="header-controls">
+      <button id="unit-toggle" aria-label="Toggle temperature unit">°C</button>
+      <button id="theme-toggle" aria-label="Toggle dark mode">🌛</button>
+      <button id="locate-btn" aria-label="Use my location">📍</button>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <section class="search-section">
+      <label for="city-search" class="visually-hidden">Search for a city</label>
+      <input
+        type="text"
+        id="city-search"
+        placeholder="Search for a city..."
+        autocomplete="off"
+      >
+      <ul id="search-suggestions" class="suggestions" hidden></ul>
+    </section>
+
+    <section class="recent-section" id="recent-section" hidden>
+      <h2 class="section-label">Recent</h2>
+      <ul id="recent-list" class="recent-list"></ul>
+    </section>
+
+    <section class="status-section" id="status-section">
+      <p id="status-message">Loading weather...</p>
+    </section>
+
+    <section class="current-weather" id="current-weather" hidden>
+      <h2 id="current-location"></h2>
+      <p id="current-condition"></p>
+      <p class="current-temp" id="current-temp"></p>
+      <p class="feels-like" id="feels-like"></p>
+      <ul class="current-stats" id="current-stats"></ul>
+
+      <!-- Head -->
+      <circle cx="30" cy="20" r="14" class="walker-head" />
+      <!-- Body -->
+      <line x1="30" y1="34" x2="30" y2="65" class="walker-stroke" />
+      <!-- Arms -->
+      <line x1="30" y1="42" x2="18" y2="55" class="walker-stroke walker-arm-left" />
+      <line x1="30" y1="42" x2="42" y2="55" class="walker-stroke walker-arm-right" />
+      <!-- Legs -->
+      <line x1="30" y1="65" x2="22" y2="85" class="walker-stroke walker-leg-left" />
+      <line x1="30" y1="65" x2="38" y2="85" class="walker-stroke walker-leg-right" />
+      <!-- Outfit layer (swappable) -->
+      <g id="walker-outfit"></g>
+      </svg>
+      </div>
+    </section>
+
+    <section class="ai-summary-section" id="ai-summary-section" hidden>
+      <h2 class="section-label">AI summary</h2>
+      <p id="ai-summary-text"></p>
+      <button id="ai-summary-btn">Get personalized summary</button>
+    </section>
+
+    <section class="forecast-section" id="forecast-section" hidden>
+      <h2 class="section-label">5-day forecast</h2>
+      <ul id="forecast-list" class="forecast-list"></ul>
+    </section>
+
+    <section class="chart-section" id="chart-section" hidden>
+      <h2 class="section-label">Temperature trend</h2>
+      <canvas id="trend-chart" width="600" height="240"></canvas>
+    </section>
+  </main>
+
+ <footer class="app-footer">
+    <p>Data from Open-Meteo · Built by Mayla Tenorio</p>
+  </footer>
+
+  <!-- Walker lives at the page level so he can wander -->
+  <div class="walker-hole" id="walker-hole" aria-hidden="true"></div>
+  <div class="walker-container" aria-hidden="true">
+    <img id="walker" src="assets/walker/average-johnny.svg" alt="">
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+
+</html>

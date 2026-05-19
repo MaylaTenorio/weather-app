@@ -1,0 +1,523 @@
+/* ---------- 1. Design tokens (CSS variables) ---------- */
+:root {
+  /* Colors — light theme defaults */
+  --bg-gradient: linear-gradient(135deg, #87ceeb 0%, #b3e0ff 50%, #ffd89b 100%);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --card-bg: rgba(255, 255, 255, 0.5);
+  --card-border: rgba(255, 255, 255, 0.6);
+  --accent: #0ea5e9;
+
+  /* Spacing scale — using consistent values keeps the design tight */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-8: 48px;
+
+  /* Other tokens */
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --transition: 250ms ease;
+}
+
+/* Dark theme overrides — applied when <body> has class "dark" */
+body.dark {
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%);
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --card-border: rgba(255, 255, 255, 0.12);
+  --accent: #fbbf24;
+}
+
+/* ---------- 2. Reset & base styles ---------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  color: var(--text-primary);
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  min-height: 100vh;
+  line-height: 1.5;
+  transition: background var(--transition), color var(--transition);
+}
+
+/* Accessibility helper: hide visually but keep available for screen readers */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- 3. Layout containers ---------- */
+.app-header,
+.app-main,
+.app-footer {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-5);
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-top: var(--space-6);
+}
+
+.app-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.header-controls {
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* ---------- 4. Reusable card style ---------- */
+.search-section,
+.recent-section,
+.status-section,
+.current-weather,
+.ai-summary-section,
+.forecast-section,
+.chart-section {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-4);
+  box-shadow: var(--shadow);
+}
+
+.section-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-3);
+}
+
+/* ---------- 5. Buttons ---------- */
+button {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  transition: transform var(--transition), background var(--transition);
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.header-controls button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- 6. Search ---------- */
+#city-search {
+  width: 100%;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: var(--space-2) 0;
+}
+
+#city-search::placeholder {
+  color: var(--text-muted);
+}
+
+.suggestions {
+  list-style: none;
+  margin-top: var(--space-3);
+  border-top: 1px solid var(--card-border);
+  padding-top: var(--space-3);
+}
+
+.suggestions li {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.suggestions li:hover,
+.suggestions li:focus {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+body.dark .suggestions li:hover,
+body.dark .suggestions li:focus {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ---------- 7. Recent cities ---------- */
+.recent-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.recent-list li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.recent-list button {
+  font-size: 13px;
+  padding: var(--space-1) var(--space-3);
+}
+
+/* ---------- 8. Current weather ---------- */
+.current-weather h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: var(--space-1);
+}
+
+#current-condition {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: var(--space-3);
+}
+
+.current-temp {
+  font-size: 72px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.feels-like {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.current-stats {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.current-stats li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.current-stats .stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.current-stats .stat-value {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ---------- 9. Forecast ---------- */
+.forecast-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-2);
+}
+
+.forecast-list li {
+  text-align: center;
+  padding: var(--space-3) var(--space-2);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+body.dark .forecast-list li {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.forecast-day {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-bottom: var(--space-1);
+}
+
+.forecast-icon {
+  font-size: 28px;
+  margin: var(--space-1) 0;
+}
+
+.forecast-high {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.forecast-low {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ---------- 10. AI summary ---------- */
+.ai-summary-section {
+  border: 1px solid var(--accent);
+}
+
+#ai-summary-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+  min-height: 1em;
+}
+
+#ai-summary-btn {
+  background: var(--accent);
+  color: white;
+  border-color: transparent;
+}
+
+/* ---------- 11. Chart ---------- */
+#trend-chart {
+  width: 100%;
+  height: auto;
+  max-height: 240px;
+}
+
+/* ---------- 12. Footer ---------- */
+.app-footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  padding-bottom: var(--space-6);
+}
+
+/* ---------- 13. Responsive ---------- */
+@media (min-width: 600px) {
+  .current-stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .current-temp {
+    font-size: 88px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header h1 {
+    font-size: 22px;
+  }
+  .current-temp {
+    font-size: 56px;
+  }
+  .forecast-list {
+    grid-template-columns: repeat(5, 1fr);
+    font-size: 12px;
+  }
+}
+
+#trend-chart {
+  display: block;
+  width: 100%;
+  height: 240px;
+}
+
+
+/* ---------- Weather themes ---------- */
+/* Each theme overrides --bg-gradient. Dark variants nest inside body.dark. */
+
+body.theme-clear {
+  --bg-gradient: linear-gradient(135deg, #87ceeb 0%, #b3e0ff 50%, #ffd89b 100%);
+}
+body.theme-clear.dark {
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #312e81 100%);
+}
+
+body.theme-cloudy {
+  --bg-gradient: linear-gradient(135deg, #94a3b8 0%, #cbd5e1 50%, #e2e8f0 100%);
+}
+body.theme-cloudy.dark {
+  --bg-gradient: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+}
+
+body.theme-rain {
+  --bg-gradient: linear-gradient(135deg, #64748b 0%, #60a5fa 50%, #94a3b8 100%);
+}
+body.theme-rain.dark {
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #1e293b 100%);
+}
+
+body.theme-snow {
+  --bg-gradient: linear-gradient(135deg, #bfdbfe 0%, #e0f2fe 50%, #ffffff 100%);
+}
+body.theme-snow.dark {
+  --bg-gradient: linear-gradient(135deg, #1e293b 0%, #1e3a8a 50%, #0c4a6e 100%);
+}
+
+body.theme-storm {
+  --bg-gradient: linear-gradient(135deg, #334155 0%, #475569 50%, #64748b 100%);
+}
+body.theme-storm.dark {
+  --bg-gradient: linear-gradient(135deg, #000000 0%, #0f172a 50%, #312e81 100%);
+}
+
+/* ---------- Night variants ---------- */
+/* Layered on top of theme classes when it's night at the displayed location */
+
+body.night.theme-clear {
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #312e81 100%);
+}
+body.night.theme-clear.dark {
+  --bg-gradient: linear-gradient(135deg, #000000 0%, #0c1027 50%, #1e1b4b 100%);
+}
+
+body.night.theme-cloudy {
+  --bg-gradient: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+}
+body.night.theme-cloudy.dark {
+  --bg-gradient: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e293b 100%);
+}
+
+body.night.theme-rain {
+  --bg-gradient: linear-gradient(135deg, #1e293b 0%, #1e3a8a 50%, #0f172a 100%);
+}
+body.night.theme-rain.dark {
+  --bg-gradient: linear-gradient(135deg, #020617 0%, #172554 50%, #0f172a 100%);
+}
+
+body.night.theme-snow {
+  --bg-gradient: linear-gradient(135deg, #1e3a8a 0%, #312e81 50%, #1e293b 100%);
+}
+body.night.theme-snow.dark {
+  --bg-gradient: linear-gradient(135deg, #020617 0%, #1e3a8a 50%, #0f172a 100%);
+}
+
+body.night.theme-storm {
+  --bg-gradient: linear-gradient(135deg, #000000 0%, #1e1b4b 50%, #0f172a 100%);
+}
+body.night.theme-storm.dark {
+  --bg-gradient: linear-gradient(135deg, #000000 0%, #0c0a1e 50%, #1e1b4b 100%);
+}
+
+/* When it's night, ensure text is readable on dark backgrounds even in light mode */
+body.night:not(.dark) {
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --card-border: rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- Walker character ---------- */
+.walker-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100px;       /* was 80px */
+  height: 100px;      /* was 80px */
+  pointer-events: none;
+  z-index: 5;
+  transition: left 4s linear, bottom 4s linear, transform 0.6s ease-in-out;
+}
+
+#walker {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  mix-blend-mode: multiply;
+  transform-origin: center bottom;
+  transition: transform 0.8s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+/* Bobbing animation while walking */
+#walker.walking {
+  animation: walker-bob 0.6s ease-in-out infinite;
+}
+
+@keyframes walker-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+/* When he's sinking into / emerging from a hole */
+#walker.in-hole {
+  transform: scaleY(0.1) translateY(20px);
+  opacity: 0;
+}
+
+/* Flip horizontally when walking left */
+#walker.facing-left {
+  transform: scaleX(-1);
+}
+
+#walker.facing-left.in-hole {
+  transform: scaleX(-1) scaleY(0.1) translateY(20px);
+}
+
+/* The hole graphic */
+.walker-hole {
+  position: fixed;
+  width: 70px;        /* was 60px */
+  height: 22px;       /* was 18px */
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 4;
+  transition: opacity 0.4s ease-in-out, left 0s, bottom 0s;
+
+}
+
+.walker-hole.visible {
+  opacity: 1;
+}
+
