@@ -164,7 +164,7 @@ function randomPosition() {
 // Place walker + hole at a position
 function placeWalker(x, y) {
   const container = walkerState.el.parentElement;
-  const size = 100;
+  const size = 120;
 
   // Walker container position
   const walkerBottom = window.innerHeight - y - size;
@@ -244,7 +244,7 @@ async function walkerLoop() {
     // 7. Show new hole at his current spot (use the destination coords, not stored)
    // 7. Show new hole at his current spot (same bottom as Walker)
 // 7. Show new hole at his current spot (same bottom as Walker)
-const size = 100;
+const size = 120;
 const walkerBottomAtEnd = window.innerHeight - walkY - size;
 walkerState.hole.style.left = `${walkX + (size - 70) / 2}px`;
 walkerState.hole.style.bottom = `${walkerBottomAtEnd}px`;

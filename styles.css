@@ -460,8 +460,8 @@ body.night:not(.dark) {
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100px;       /* was 80px */
-  height: 100px;      /* was 80px */
+  width: 120px;       /* was 80px */
+  height: 120px;      /* was 80px */
   pointer-events: none;
   z-index: 5;
   transition: left 4s linear, bottom 4s linear, transform 0.6s ease-in-out;
