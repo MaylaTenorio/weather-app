@@ -153,7 +153,6 @@ function updateWalkerOutfit() {
   const isDay = state.data.current.is_day === 1;
   img.src = `assets/walker/${pickWalkerVariant(code, isDay)}.svg`;
 }
-
 // Pick a random position on the screen, with margins so he doesn't go off-edge
 function randomPosition() {
   const margin = 100;
