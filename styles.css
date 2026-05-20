@@ -521,3 +521,12 @@ body.night:not(.dark) {
   opacity: 1;
 }
 
+.suggestions li:focus {
+  background: rgba(0, 0, 0, 0.1);
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+body.dark .suggestions li:focus {
+  background: rgba(255, 255, 255, 0.12);
+}

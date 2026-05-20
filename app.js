@@ -554,13 +554,39 @@ function saveRecent(list) {
 
 // ---------- Handle Enter key ----------
 els.search.addEventListener("keydown", (event) => {
+  const items = Array.from(els.suggestions.querySelectorAll("li"));
+
+  if (event.key === "ArrowDown" && items.length > 0) {
+    event.preventDefault();
+    items[0].focus();
+    return;
+  }
+
   if (event.key === "Enter") {
     event.preventDefault();
-    // Pick the first visible suggestion
-    const firstSuggestion = els.suggestions.querySelector("li");
-    if (firstSuggestion) {
-      firstSuggestion.click();
+    if (items.length > 0) {
+      items[0].click();
     }
+  }
+});
+
+// Allow arrow keys to navigate within the suggestions list
+els.suggestions.addEventListener("keydown", (event) => {
+  const items = Array.from(els.suggestions.querySelectorAll("li"));
+  const currentIndex = items.indexOf(document.activeElement);
+
+  if (event.key === "ArrowDown") {
+    event.preventDefault();
+    const next = items[currentIndex + 1] || items[0];
+    next.focus();
+  } else if (event.key === "ArrowUp") {
+    event.preventDefault();
+    const prev = items[currentIndex - 1] || items[items.length - 1];
+    prev.focus();
+  } else if (event.key === "Escape") {
+    event.preventDefault();
+    els.suggestions.hidden = true;
+    els.search.focus();
   }
 });
 
